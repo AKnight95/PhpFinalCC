@@ -2,9 +2,9 @@
 <link rel="stylesheet" href="{{ asset('build/app.css') }}">
 {% endblock %}
 
-{% block title %}Admin{% endblock %}
+{% block title %}Editor{% endblock %}
 
-{% block body %}
+{% block body %}{% endblock %}
 
 <div class="flex flex-row-reverse w-full">
     <header class="flex-shrink-0 w-4/5 bg-gray-50 rounded-lg ml-3">
@@ -149,15 +149,15 @@
       </div>
   
       <div class="mt-8">
-        {% if 'ROLE_EDITOR' in app.user.roles %}
-        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Welcome Editor, {{ app.user.name }}!
-        </h1>
-    {% else %}
-        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Welcome back, {{ app.user.name }}!
-        </h1>
-    {% endif %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
+            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                Welcome Admin, {{ app.user.name }}!
+            </h1>
+        {% else %}
+            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                Welcome back editor, {{ app.user.name }}!
+            </h1>
+        {% endif %}
   
         <p class="mt-1.5 text-sm text-gray-500">
           Your website has seen a 52% increase in traffic in the last month. Keep
@@ -165,6 +165,51 @@
         </p>
       </div>
     </div>
+
+    <div class="px-4 py-8 sm:px-6 lg:px-8">
+        <h1>Articles index</h1>
+    
+        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500 mb-5">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Id</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Title</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Content</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Status</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                {% for article in articles %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">{{ article.id }}</td>
+                        <td class="px-6 py-4">{{ article.title }}</td>
+                        <td class="px-6 py-4">{{ article.content }}</td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold {{ article.status == 'APPROVED' ? 'bg-green-50 text-green-600' : 'bg-yellow-200 text-yellow-600' }}">
+                                <span class="h-1.5 w-1.5 rounded-full {{ article.status == 'APPROVED' ? 'bg-green-600' : 'bg-yellow-600' }}"></span>
+                                {{ article.status }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex justify-end gap-4">
+                                <a href="{{ path('app_articles_show', {'id': article.id}) }}" class="mt-5 py-2 px-4 bg-transparent text-teal-600 font-semibold border border-teal-600 rounded hover:bg-teal-600 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-1 active:translate-y-0">Show</a>
+                                <a href="{{ path('app_articles_edit', {'id': article.id}) }}" class="mt-5 py-2 px-4 bg-transparent text-teal-600 font-semibold border border-teal-600 rounded hover:bg-teal-600 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-1 active:translate-y-0">Edit</a>
+                                <!-- Other action buttons -->
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-4">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        <a href="{{ path('editor_app_articles_new') }}" class="mt-5 py-2 px-4 bg-transparent text-teal-600 font-semibold border border-teal-600 rounded hover:bg-teal-600 hover:text-white hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-1 active:translate-y-0">Create new</a>
+    </div>
+    
   </header>
 
   <div class="flex-grow w-1/5 font-poppins antialiased rounded-lg">
@@ -249,7 +294,7 @@
           </div>
           <div id="menu" class="flex flex-col space-y-2">
             <a
-              href=""
+              href="{{ path('app_articles_index') }}"
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -389,11 +434,8 @@
           </div>
         </div>
       </div>
-     
     </div>
   </div>
 </div>
 
-
-{% endblock %}
 

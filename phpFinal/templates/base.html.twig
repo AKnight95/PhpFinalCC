@@ -14,9 +14,7 @@
         {% endblock %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.8.1/cdn.min.js" defer></script>
     </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+
 
     <div class="flex flex-col">
         <!-- Page Scroll Progress -->
@@ -39,39 +37,29 @@
                 </a>
             </div>
 
-            <!-- Links Section -->
-            <div class="items-center hidden space-x-8 lg:flex">
-                <a  href="{{ path('home') }}" class="flex text-gray-600 hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
-                    Home
-                </a>
+<!-- Links Section -->
+<div class="items-center hidden space-x-8 lg:flex">
+    <a href="{{ path('home') }}" class="flex text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-300">
+        Home
+    </a>
 
-                <a class="flex text-gray-600 
-                    cursor-pointer transition-colors duration-300
-                    font-semibold text-blue-600">
-                    Themes
-                </a>
+    {% if is_granted('ROLE_EDITOR') %}
+    <a href="{{ path('editor_app_articles_index') }}" class="flex text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-300 font-semibold text-blue-600">
+        Espace Editeur
+    </a>
+    {% endif %}
 
-                <a class="flex text-gray-600 hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
-                    Developers
-                </a>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_articles_index') }}" class="flex text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-300">
+        Espace Admin
+    </a>
+    {% endif %}
 
-                <a class="flex text-gray-600 hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
-                    Pricing
-                </a>
+    <a href="" class="flex text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-300">
+        About Us
+    </a>
+</div>
 
-                <a class="flex text-gray-600 hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
-                    Blog
-                </a>
-
-                <a class="flex text-gray-600 hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
-                    About Us
-                </a>
-            </div>
 
             <!-- Icon Menu Section -->
             <div class="flex items-center space-x-5">
@@ -127,6 +115,10 @@
           </div>
         </div>
       </section>
+
+      {% block body %}
+        
+      {% endblock %}
 
     <div class="bg-black">
 
@@ -296,6 +288,8 @@
                     </div>
                 </div>
             </section>
+
+
     
             <div class="mx-auto px-4">
                 <div class="flex flex-wrap">

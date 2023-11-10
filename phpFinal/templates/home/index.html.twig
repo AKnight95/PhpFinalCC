@@ -3,6 +3,36 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-
-
+<body class="">
+  <div class="mt-6 m-5">
+    {% for article in articles %}
+      {% if article.status == 'APPROVED' %}
+        <div class="mb-6 max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md">
+            <div class="flex items-center justify-between">
+                <span class="font-light text-gray-600">10/11/2023</span> <!-- Adjust date format as needed -->
+                <a href="#" class="px-2 py-1 font-bold text-gray-100 bg-green-500 rounded hover:bg-green-600">
+                    {{ article.status }}
+                </a>
+            </div>
+            <div class="mt-2">
+                <a href="#" class="text-2xl font-bold text-gray-700 hover:underline">{{ article.title }}</a>
+                <p class="mt-2 text-gray-600">{{ article.content|slice(0, 150) ~ '...' }}</p>
+            </div>
+            <div class="flex items-center justify-between mt-4">
+                <a href="{{ path('article_show', {'id': article.id}) }}"class="text-blue-500 hover:underline">Read more</a>
+                <div>
+                    <a href="#" class="flex items-center">
+                        <!-- Add your logic to display author's image if available -->
+                        <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=731&q=80" alt="avatar" class="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block">
+                        <h1 class="font-bold text-gray-700 hover:underline">Auteur</h1> <!-- Replace with your author field -->
+                    </a>
+                </div>
+            </div>
+        </div>
+      {% endif %}
+    {% else %}
+    <p>Aucun article trouvé.</p>
+    {% endfor %}
+  </div>
+</body>
 {% endblock %}

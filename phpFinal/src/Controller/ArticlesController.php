@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/articles')]
 class ArticlesController extends AbstractController
 {
-    #[Route('/', name: 'app_articles_index', methods: ['GET'])]
+    #[Route('/', name: 'articles_index', methods: ['GET'])]
     public function index(ArticlesRepository $articlesRepository): Response
     {
         return $this->render('articles/index.html.twig', [
@@ -22,7 +22,7 @@ class ArticlesController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_articles_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'articles_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Articles();

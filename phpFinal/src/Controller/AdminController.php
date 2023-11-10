@@ -11,19 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-#[Route('/admin', name: 'app_admin')]
+#[Route('/admin')]
 class AdminController extends AbstractController
 {
 
-    public function index(): Response
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
-
     #[Route('/', name: 'app_articles_index', methods: ['GET'])]
-    public function getAll(ArticlesRepository $articlesRepository): Response
+    public function index(ArticlesRepository $articlesRepository): Response
     {
         return $this->render('admin/index.html.twig', [
             'articles' => $articlesRepository->findAll(),
@@ -41,7 +34,7 @@ class AdminController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_articles_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('articles/new.html.twig', [
